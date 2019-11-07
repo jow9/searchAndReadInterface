@@ -1,0 +1,156 @@
+*, *:before, *:after {
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+         -o-box-sizing: border-box;
+        -ms-box-sizing: border-box;
+            box-sizing: border-box;
+}
+
+
+body {
+  margin: 0;
+  background-color: #ffffff;
+  font-family: "Hiragino Kaku Gothic ProN", "ヒラギノ角ゴシック", "ヒラギノ丸ゴ ProN", "serif", "YuGothic", "Yu Gothic";
+  /*min-height: 100vh;
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  background-image: url(../src/img/test.png);*/
+}
+
+#main {
+  display: flex;
+  flex-direction: row;
+}
+
+.container {
+  color: #2b2b2b;
+  padding: 20px;
+  font-size: 0;/*要素同士をぴったりくっつけるための処理、不要な改行を消す*/
+}
+
+p {
+  font-size: 12px;
+}
+
+h1 {
+  font-size: 30px;
+}
+
+h2 {
+  font-size: 20px;
+}
+
+h3 {
+  font-size: 13px;
+}
+
+li {
+  list-style: none;
+}
+
+ul {
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+  font-size: 20px;
+  color: white;
+}
+
+.leftclum-wrapper, .leftclum-wrapper .container {
+  width: 230px;
+  min-height: 100%;
+  background-color: #203744;
+}
+
+.rightclum-wrapper, .rightclum-wrapper .container{
+  width: calc(40% - 270px);
+  min-height: 100%;
+  /*background-color: #f5f5f5;*/
+}
+
+.MoveViewPage {
+  width: 40px;
+  min-height: 100vh;
+  background-color: #000000;
+}
+
+.leftclum-wrapper .container, .rightclum-wrapper .container, .MoveViewPage .container{
+  position: fixed;
+}
+
+.MoveViewPage .container{
+  padding: 0;
+  color: #ffffff;
+}
+
+.centerclum-wrapper {
+  margin: 0px;
+  padding: 0px;
+  width: 60%;
+}
+
+.work {
+  width: calc(100% - 6px);
+  height: calc(100% - 6px);
+  margin: 5px;
+  padding: 3px;
+  cursor : pointer;
+  border: solid 1.5px #5d5d5d;
+  text-align: left;
+}
+
+.work:hover {
+  background-color: #f5f5f5;
+}
+
+/*画像と文字を横に並べる*/
+.work-txt {
+  vertical-align: top;
+  display: inline-block;
+  width: 70%;
+}
+
+.workImg {
+  display: inline-block;
+  /*overflow: hidden;*/
+  width: 30%;
+}
+
+.workImg img {
+  width: 100%;
+}
+
+
+/*rightclum*/
+.read-work {
+  cursor : pointer;
+  margin: 5px 0;
+}
+
+.read-work h3{
+  margin: 0;
+  font-size: 11px;
+  font-weight: lighter;
+  padding: 2px 5px;
+}
+
+.read-work h3:hover {
+  font-weight: bold;
+}
+
+.works input{
+  display: none;
+}
+
+.works input:checked + .work{
+  display: none;
+}
+
+
+/*leftclum*/
+.leftclum-wrapper h1 {
+  color: white;
+}
