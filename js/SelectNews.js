@@ -1,97 +1,97 @@
 
-var work_checkbox = document.getElementsByName("article");
-var workElement = document.getElementsByClassName("work");
-var workBlockElement = document.getElementsByClassName('work-block');//中央コラムに存在する記事の取得
-var works = document.getElementById("works");
+//var work_checkbox = document.getElementsByName("article");
+//var workElement = document.getElementsByClassName("work");
+//var workBlockElement = document.getElementsByClassName('work-block');//中央コラムに存在する記事の取得
+var worksElement = document.getElementsByClassName('works');
+var work_num = 5;
 
 window.onload = function(){
   console.log("Onload SelectNews.js file");
 
-  /*
-  イベントの登録
-  */
-  for (let i = 0; i < workBlockElement.length; i++) {
-    //各記事がクリックされた際にそれらをリスト化するイベントを登録
-    //workBlockElement[i].addEventListener("click", {id: i, element: workElement[i], handleEvent: MainClumClickCreateRightClum});
-    workElement[i].addEventListener("click", function(){
-      MainClumClickCreateRightClum({id: i, element: workElement[i], click: true})
-    }, false);
-  }
-
-  ReadListFile("read");
-  //ReadFile("noread");
-}
-
-
-/*
-//ブラウザを更新したときの処理
-//読みたいリスト、（読みたくないリスト）からデータを取得して画面状態を生成する
-*/
-function ReloadDisplay(list){
-  list = list.split(/\r\n/);
-  for(var i = 0; i < list.length; i++){
-    if(list[i] == ""){console.log("リストへの反映が終了");break;}
-    console.log(list[i]);
-    MainClumClickCreateRightClum({id: Number(list[i]), element: workElement[Number(list[i])], click: false});
-    //work_checkbox[Number(list[i])].checked = true;
-  }
+  CreateMainClum(work_num);
+  MainClumIntotxt();
 }
 
 
 /*
 //mainClumを生成する
 */
-function CreateMainClum(article_id){
-  let id = ('000' + article_id).slice(-3);//3桁としてidを揃える
-  console.log(id + "番目の記事データにアクセス");
-  let xmlHttpReq = new XMLHttpRequest();
-  let cmd = "./rb/index.rb?cmd=read";
-  let fileName = "&fn=article/article_" + id + ".txt";
+function CreateMainClum(clum_num){
+  for(let i = 0; i < clum_num; i++){
+    //work-block要素の作成
+    let workBlockElement = document.createElement('div');
+    workBlockElement.className = 'work-block';
+    workBlockElement.addEventListener("click", function(){
+      MainClumClickCreateRightClum({id: i, click: true})
+    }, false);
 
-  xmlHttpReq.open('GET', cmd + fileName, true);//ここで指定するパスは、index.htmlファイルを基準にしたときの相対パス
-  xmlHttpReq.send(null);//サーバーへのリクエストを送信する、引数はPOSTのときのみ利用
 
-  xmlHttpReq.onreadystatechange = function(){
-    if((xmlHttpReq.readyState == 4) && (xmlHttpReq.status == 200) ){
-      //テキストの編集
-      let txt = xmlHttpReq.responseText;
-      //1行目を見出しとする
-      txt = "<h3>" + txt;
-      txt = txt.replace(/\r?\n/, '</h3><br>');
+    //input要素の作成
+    let inputCheckboxElement = document.createElement('input');
+    inputCheckboxElement.type = 'checkbox';
+    inputCheckboxElement.name = 'article';
+    inputCheckboxElement.value = i;
 
-      //改行コードを改行タグに変換
-      txt = txt.replace(/\r?\n/g, '<br>');
-      console.log(txt);
+    //work要素の作成
+    let workElement = document.createElement('div');
+    workElement.className = 'work';
 
-      //work-block要素の作成
-      let workBlockElement = document.createElement('div');
-      workBlockElement.class = 'work-block';
+    //workImg要素の作成
+    let workImgElement = document.createElement('div');
+    workImgElement.className = 'workImg';
+    let imgElement = document.createElement('img');
+    imgElement.src = "src/img/" + i + ".png";
 
-      //input要素の作成
-      let inputCheckboxElement = document.createElement('input');
-      inputCheckboxElement.type = 'checkbox';
-      inputCheckboxElement.name = 'article';
-      inputCheckboxElement.value = article_id;
+    //構造体の制作
+    workImgElement.appendChild(imgElement);
+    workElement.appendChild(workImgElement);
+    workBlockElement.appendChild(inputCheckboxElement);
+    workBlockElement.appendChild(workElement);
+    worksElement[0].appendChild(workBlockElement);//設定されたIDと登録順序が通信速度の差でずれてしまう
+  }
+}
 
-      //work要素の作成
-      let workElement = document.createElement('div');
+/*
+//mainClumの要素にテキストを挿入する
+*/
+function MainClumIntotxt(){
+  let workElements = document.getElementsByClassName('work');
+  for(let i = 0; i < workElements.length; i++){
+    let id = ('000' + i).slice(-3);//3桁としてidを揃える
+    console.log(id + "番目の記事データにアクセス");
+    let xmlHttpReq = new XMLHttpRequest();
+    let cmd = "./rb/index.rb?cmd=read";
+    let fileName = "&fn=article/article_" + i + ".txt";
 
-      //work-txt要素の作成
-      let work_txtElement = document.createElement('div');
-      work_txtElement.innerHTML = txt;
+    xmlHttpReq.open('GET', cmd + fileName, true);//ここで指定するパスは、index.htmlファイルを基準にしたときの相対パス
+    xmlHttpReq.send(null);//サーバーへのリクエストを送信する、引数はPOSTのときのみ利用
 
-      //workImg要素の作成
-      let workImgElement = document.createElement('div');
-      workImgElement.class = 'workImg';
-      let imgElement = document.createElement('img');
-      imgElement.src = "src/img/" + article_id + ".png";
+    xmlHttpReq.onreadystatechange = function(){
+      if((xmlHttpReq.readyState == 4) && (xmlHttpReq.status == 200) ){
+        //テキストの編集
+        let txt = xmlHttpReq.responseText;
 
-      //構造体の制作
-      workImgElement.appendChild(imgElement);
-      workElement.appendChild(work_txtElement);
-      workElement.appendChild(workImgElement);
-      workBlockElement.appendChild(inputCheckboxElement);
-      workBlockElement.appendChild(workElement);
+        //1行目を見出しとする
+        let txt_array = txt.split(/\r?\n/);
+        console.log(txt_array[0]);
+
+        //work-txt要素の作成
+        let work_txtElement = document.createElement('div');
+        work_txtElement.className = 'work-txt';
+        let h3Element = document.createElement('h3');
+        let pElement = document.createElement('p');
+        h3Element.innerHTML = txt_array[0];
+        for(let j = 1; j < 2; j++){
+          pElement.innerHTML += txt_array[j];
+        }
+
+        work_txtElement.appendChild(h3Element);
+        work_txtElement.appendChild(pElement);
+        //workElements[i].appendChild(work_txtElement);
+        workElements[i].insertBefore(work_txtElement, workElements[i].firstChild);
+
+        if(i == workElements.length-1)ReadListFile("read");//画面要素の編集
+      }
     }
   }
 }
@@ -104,10 +104,11 @@ function CreateMainClum(article_id){
 */
 function MainClumClickCreateRightClum(obj){
 　console.log("mainClumeで" + obj.id + '番の記事をリスト化する');
-  console.log(obj.element);
 
   /*要素の取得*/
   var readWorkElement = document.getElementsByClassName('read-works');//右コラムの取得
+  let work_txtElement = worksElement[0].getElementsByClassName('work-block')[obj.id];
+  let checkboxelement = worksElement[0].getElementsByClassName('work-block')[obj.id].getElementsByTagName('input')[0];
 
   /*rightclumにリストを生成する*/
   var txtElement = document.createElement('div');
@@ -116,7 +117,7 @@ function MainClumClickCreateRightClum(obj){
   txtElement.addEventListener("click", function(){
     RightClumClickDisplayMainClum({id: obj.id, element: txtElement})
   }, false);
-  h3Element.innerHTML = obj.element.getElementsByTagName('h3')[0].innerHTML;//mainコラムから見出し飲みを取得する
+  h3Element.innerHTML = work_txtElement.getElementsByTagName('h3')[0].innerHTML;//mainコラムから見出しを取得する
   txtElement.appendChild(h3Element);
   readWorkElement[0].appendChild(txtElement);
 
@@ -124,7 +125,7 @@ function MainClumClickCreateRightClum(obj){
   if(obj.click)WriteFile("read", obj.id);
 
   /*チェックボックスをオンにして非表示にする*/
-  work_checkbox[obj.id].checked = true;
+  checkboxelement.checked = true;
 }
 
 
@@ -139,7 +140,8 @@ function RightClumClickDisplayMainClum(obj){
   console.log(obj.element);
 
   /*チェックボックスをオフにして表示にする*/
-  work_checkbox[obj.id].checked = false;
+  let checkboxelement = worksElement[0].getElementsByClassName('work-block')[obj.id].getElementsByTagName('input')[0];
+  checkboxelement.checked = false;
 
   /*rightclumから要素を削除する*/
   obj.element.parentNode.removeChild(obj.element);
@@ -190,8 +192,9 @@ function ReWriteFile(article_abs, article_id){
 
 
 /*
-//データの読み込み
-//指定したファイルからデータを読み込みmainコラム（とreadページ）を編集する
+//ブラウザを更新したときの処理
+//指定したファイルからデータを読み込みmainclum（とreadページ）を編集する
+//読みたいリスト、（と読みたくないリスト）からデータを取得して画面状態を生成する
 */
 function ReadListFile(article_abs){
   console.log(article_abs + "にアクセス");
@@ -204,8 +207,12 @@ function ReadListFile(article_abs){
 
   xmlHttpReq.onreadystatechange = function(){
     if((xmlHttpReq.readyState == 4) && (xmlHttpReq.status == 200) ){
-      //テキストの編集
-      ReloadDisplay(xmlHttpReq.responseText);
+      list = xmlHttpReq.responseText.split(/\r\n/);
+      for(var i = 0; i < list.length; i++){
+        if(list[i] == ""){console.log("リストへの反映が終了");break;}
+        console.log(list[i]);
+        MainClumClickCreateRightClum({id: Number(list[i]), click: false});
+      }
     }
   }
 }
