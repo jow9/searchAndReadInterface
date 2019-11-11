@@ -30,7 +30,7 @@ body {
 }
 
 p {
-  font-size: 12px;
+  font-size: 13px;
 }
 
 h1 {
@@ -42,7 +42,7 @@ h2 {
 }
 
 h3 {
-  font-size: 13px;
+  font-size: 12px;
 }
 
 li {
@@ -69,7 +69,7 @@ a {
   width: 70%;
   max-width: 850px;
   min-width: 600px;
-  margin: 10px 20px 20px 60px;
+  margin: 10px 20px 20px 40px;
 }
 
 .MoveViewPage {
@@ -78,14 +78,18 @@ a {
   background-color: #000000;
 }
 
-.workImg {
-  display: inline-block;
-  /*overflow: hidden;*/
-  width: 40%;
-  float: right;
-  margin: 20px;
+.work-block {
+  margin: 10px 0 50px 0;
 }
 
-.workImg img {
-  width: 100%;
+.work-block:after{
+	content: "";
+	clear: both;
+	display: block;
+}
+
+.work img {
+  float: right;
+  width: 30%;
+  padding: 0 0 30px 30px;
 }

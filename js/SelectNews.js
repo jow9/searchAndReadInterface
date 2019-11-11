@@ -96,6 +96,7 @@ function MainClumIntotxt(){
   }
 }
 
+
 /*
 //記事がクリックされたときに発生するイベント
 //クリックされたものをリスト化する
@@ -208,7 +209,7 @@ function ReadListFile(article_abs){
   xmlHttpReq.onreadystatechange = function(){
     if((xmlHttpReq.readyState == 4) && (xmlHttpReq.status == 200) ){
       list = xmlHttpReq.responseText.split(/\r\n/);
-      for(var i = 0; i < list.length; i++){
+      for(var i = 0; i < list.length-1; i++){
         if(list[i] == ""){console.log("リストへの反映が終了");break;}
         console.log(list[i]);
         MainClumClickCreateRightClum({id: Number(list[i]), click: false});

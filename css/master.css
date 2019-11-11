@@ -119,12 +119,18 @@ a {
   width: 30%;
   max-width: 200px;
   padding: 10px;
+  float:right;
 }
 
 .workImg img {
   width: 100%;
 }
 
+.work:after{
+	content: "";
+	clear: both;
+	display: block;
+}
 
 /*rightclum*/
 .read-work {
