@@ -13,6 +13,12 @@ var readWorksElement = document.getElementsByClassName('read-works');//右コラ
 
 
 window.onload = function(){
+  /*ページ遷移処理を作成*/
+  let moveElement = document.getElementsByClassName('MoveViewPage');
+  moveElement[0].addEventListener("click", function(){
+    location.href = 'index.html';
+  }, false);
+  
   ReadListFile("read");//ReadListFile() → CreateClumBase(list) → ClumIntotxt(list) と順番に呼び出しページを生成する
 }
 
@@ -26,8 +32,9 @@ function CreateClumBase(list){
     console.log(list[i] + "番記事のためのタグ要素を生成する");
 
     /*rightClumを作成する*/
-    let txtElement = document.createElement('div');
+    let txtElement = document.createElement('a');
     txtElement.className = 'read-work';
+    txtElement.href = "#" + Number(list[i]);
     readWorksElement[0].appendChild(txtElement);
 
     /*mainClumを作成する*/
@@ -38,6 +45,7 @@ function CreateClumBase(list){
     //work要素の作成
     let workElement = document.createElement('div');
     workElement.className = 'work';
+    workElement.id = Number(list[i]);
 
     //構造体の制作
     workBlockElement.appendChild(workElement);
@@ -58,7 +66,7 @@ function ClumIntotxt(list){
     console.log(Number(list[i]) + "番目の記事データを読み込む");
     let xmlHttpReq = new XMLHttpRequest();
     let cmd = "./rb/index.rb?cmd=read";
-    let fileName = "&fn=article/article_" + Number(list[i]) + ".txt";
+    let fileName = "&fn=article/" + Number(list[i]) + ".txt";
 
     xmlHttpReq.open('GET', cmd + fileName, true);//ここで指定するパスは、index.htmlファイルを基準にしたときの相対パス
     xmlHttpReq.send(null);//サーバーへのリクエストを送信する、引数はPOSTのときのみ利用
@@ -89,6 +97,9 @@ function ClumIntotxt(list){
         //workImg要素の作成
         let imgElement = document.createElement('img');
         imgElement.src = "src/img/" + Number(list[i]) + ".png";
+        imgElement.onerror = function () {
+          this.style.display = "none";
+        }
 
         workElements[i].appendChild(h2Element);
         workElements[i].appendChild(imgElement);

@@ -3,10 +3,16 @@
 //var workElement = document.getElementsByClassName("work");
 //var workBlockElement = document.getElementsByClassName('work-block');//中央コラムに存在する記事の取得
 var worksElement = document.getElementsByClassName('works');
-var work_num = 5;
+var work_num = 20;
 
 window.onload = function(){
   console.log("Onload SelectNews.js file");
+
+  /*ページ遷移処理を作成*/
+  let moveElement = document.getElementsByClassName('MoveViewPage');
+  moveElement[0].addEventListener("click", function(){
+    location.href = 'reader.html';
+  }, false);
 
   CreateMainClum(work_num);
   MainClumIntotxt();
@@ -41,6 +47,10 @@ function CreateMainClum(clum_num){
     workImgElement.className = 'workImg';
     let imgElement = document.createElement('img');
     imgElement.src = "src/img/" + i + ".png";
+    imgElement.onerror = function () {
+      this.style.display = "none";
+    }
+    // imgElement.onerror = "this.style.display='none'";
 
     //構造体の制作
     workImgElement.appendChild(imgElement);
@@ -61,7 +71,7 @@ function MainClumIntotxt(){
     console.log(id + "番目の記事データにアクセス");
     let xmlHttpReq = new XMLHttpRequest();
     let cmd = "./rb/index.rb?cmd=read";
-    let fileName = "&fn=article/article_" + i + ".txt";
+    let fileName = "&fn=article/" + i + ".txt";
 
     xmlHttpReq.open('GET', cmd + fileName, true);//ここで指定するパスは、index.htmlファイルを基準にしたときの相対パス
     xmlHttpReq.send(null);//サーバーへのリクエストを送信する、引数はPOSTのときのみ利用
