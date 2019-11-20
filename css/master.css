@@ -174,9 +174,20 @@ a {
 }
 
 .works input:checked + .work{
-  display: none;
+  /* display: none; */
+  /* background-color: #ffffe0; */
+  /* border: bold 1.5px #ffa07a; */
+  /* opacity: 0.2; */
 }
 
+
+.works .stu0 {
+  opacity: 1.0;
+}
+
+.works .stu1 {
+  opacity: 0.2;
+}
 
 /*leftclum*/
 .leftclum-wrapper h1 {

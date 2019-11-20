@@ -18,7 +18,7 @@ window.onload = function(){
   moveElement[0].addEventListener("click", function(){
     location.href = 'index.html';
   }, false);
-  
+
   ReadListFile("read");//ReadListFile() → CreateClumBase(list) → ClumIntotxt(list) と順番に呼び出しページを生成する
 }
 
@@ -62,22 +62,29 @@ function ClumIntotxt(list){
   let workElements = document.getElementsByClassName('work');
   let workImgElements = document.getElementsByClassName('workImg');
   let txtElements = document.getElementsByClassName('read-work');
-  for(let i = 0; i < list.length-1; i++){
-    console.log(Number(list[i]) + "番目の記事データを読み込む");
-    let xmlHttpReq = new XMLHttpRequest();
-    let cmd = "./rb/index.rb?cmd=read";
-    let fileName = "&fn=article/" + Number(list[i]) + ".txt";
+  let xmlHttpReq = new XMLHttpRequest();
+  let cmd = "./rb/index.rb?cmd=readArray";
+  console.log(Number(list[0]));
+  let idArray = Number(list[0]);
+  for (var i = 1; i < list.length-1; i++) {
+    idArray += "," + Number(list[i]);
+  }
+  console.log(idArray);
+  let fileName = "&fn=" + idArray;
 
-    xmlHttpReq.open('GET', cmd + fileName, true);//ここで指定するパスは、index.htmlファイルを基準にしたときの相対パス
-    xmlHttpReq.send(null);//サーバーへのリクエストを送信する、引数はPOSTのときのみ利用
+  xmlHttpReq.open('GET', cmd + fileName, true);//ここで指定するパスは、index.htmlファイルを基準にしたときの相対パス
+  xmlHttpReq.responseType = 'json';
+  xmlHttpReq.send(null);//サーバーへのリクエストを送信する、引数はPOSTのときのみ利用
 
-    xmlHttpReq.onreadystatechange = function(){
-      if((xmlHttpReq.readyState == 4) && (xmlHttpReq.status == 200)){
-        //テキストの編集
-        let txt = xmlHttpReq.responseText;
+  xmlHttpReq.onreadystatechange = function(){
+    if((xmlHttpReq.readyState == 4) && (xmlHttpReq.status == 200)){
+      //テキストの編集
+      let article_json = xmlHttpReq.response;
+      console.log(article_json);
 
+      for(let i = 0; i < Object.keys(article_json).length; i++){
         //1行目を見出しとする
-        let txt_array = txt.split(/\r?\n/);
+        let txt_array = article_json[Number(list[i])].split(/\r?\n/);
         console.log(txt_array[0]);
 
         /*rightclum要素の作成*/
@@ -104,7 +111,6 @@ function ClumIntotxt(list){
         workElements[i].appendChild(h2Element);
         workElements[i].appendChild(imgElement);
         workElements[i].appendChild(pElement);
-        workElements[i].appendChild(work_txtElement);
       }
     }
   }
