@@ -43,8 +43,7 @@ elsif (cgi['cmd'] == 'readArray')
   for id in articleArray do
     file_name = '../src/article/' + id + '.txt'
     fh = open(file_name, "r")#ここと38行でエラーが発生している。原因は読み込んだデータがJSONにする際にUTF-8以外の文字列を含んでいるから上手くエンコードされない
-    data.store(i, fh.read.force_encoding("UTF-8"))
-    i = i+1
+    data.store(id, fh.read.force_encoding("UTF-8"))
     fh.close
   end
   print data.to_json

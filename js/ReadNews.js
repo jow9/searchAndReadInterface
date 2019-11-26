@@ -34,7 +34,7 @@ function CreateClumBase(list){
     /*rightClumを作成する*/
     let txtElement = document.createElement('a');
     txtElement.className = 'read-work';
-    txtElement.href = "#" + Number(list[i]);
+    txtElement.href = "#" + list[i];
     readWorksElement[0].appendChild(txtElement);
 
     /*mainClumを作成する*/
@@ -45,7 +45,7 @@ function CreateClumBase(list){
     //work要素の作成
     let workElement = document.createElement('div');
     workElement.className = 'work';
-    workElement.id = Number(list[i]);
+    workElement.id = list[i];
 
     //構造体の制作
     workBlockElement.appendChild(workElement);
@@ -64,10 +64,10 @@ function ClumIntotxt(list){
   let txtElements = document.getElementsByClassName('read-work');
   let xmlHttpReq = new XMLHttpRequest();
   let cmd = "./rb/index.rb?cmd=readArray";
-  console.log(Number(list[0]));
-  let idArray = Number(list[0]);
+  console.log(list[0]);
+  let idArray = list[0];
   for (var i = 1; i < list.length-1; i++) {
-    idArray += "," + Number(list[i]);
+    idArray += "," + list[i];
   }
   console.log(idArray);
   let fileName = "&fn=" + idArray;
@@ -84,7 +84,7 @@ function ClumIntotxt(list){
 
       for(let i = 0; i < Object.keys(article_json).length; i++){
         //1行目を見出しとする
-        let txt_array = article_json[Number(list[i])].split(/\r?\n/);
+        let txt_array = article_json[list[i]].split(/\r?\n/);
         console.log(txt_array[0]);
 
         /*rightclum要素の作成*/
@@ -103,7 +103,7 @@ function ClumIntotxt(list){
 
         //workImg要素の作成
         let imgElement = document.createElement('img');
-        imgElement.src = "src/img/" + Number(list[i]) + ".png";
+        imgElement.src = "src/img/" + list[i] + ".png";
         imgElement.onerror = function () {
           this.style.display = "none";
         }
