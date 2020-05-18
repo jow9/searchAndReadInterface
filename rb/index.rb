@@ -47,6 +47,10 @@ elsif (cgi['cmd'] == 'readArray')
     fh.close
   end
   print data.to_json
+elsif (cgi['cmd'] == 'logSave')
+  fh = open('../src/logData/log.txt', "a")
+  fh.puts cgi['data']
+  fh.close
 else
   fh = open('../src/'+cgi['fn'], "r")
   olddata = fh.read#readによって持ってきたデータはテキストデータとして扱われる

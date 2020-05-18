@@ -20,6 +20,7 @@ window.onload = function(){
   }, false);
 
   ReadListFile("read");//ReadListFile() → CreateClumBase(list) → ClumIntotxt(list) と順番に呼び出しページを生成する
+  LogWriteFile("画面の切り替え");
 }
 
 
@@ -116,6 +117,7 @@ function ClumIntotxt(list){
   }
 }
 
+
 /*
 //データの読み込み
 //指定したファイルからデータを読み込みmainコラム（とreadページ）を編集する
@@ -136,4 +138,29 @@ function ReadListFile(article_abs){
       CreateClumBase(list);
     }
   }
+}
+
+
+/*
+//ログの書き込み処理
+*/
+function LogWriteFile(action){
+  var now = new Date();
+  console.log("ログの書き込み:" + action);
+
+  var xmlHttpReq = new XMLHttpRequest();
+  var cmd = "./rb/index.rb?cmd=logSave";
+
+  var year = now.getFullYear();
+  var month = now.getMonth()+1;
+  var date = now.getDate();
+  var hour = now.getHours();
+  var min = now.getMinutes();
+  var sec = now.getSeconds();
+
+  let day = year + "/" + month + "/" + date + "/ " + hour + ":" + min + ":" + sec + "  ";
+  var data = "&data=" + day + action;
+
+  xmlHttpReq.open('GET', cmd + data, true);//ここで指定するパスは、index.htmlファイルを基準にしたときの相対パス
+  xmlHttpReq.send(null);//サーバーへのリクエストを送信する、引数はPOSTのときのみ利用
 }

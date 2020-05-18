@@ -66,7 +66,7 @@ a {
 }
 
 .rightclum-wrapper, .rightclum-wrapper .container{
-  width: calc(40% - 270px);
+  width: calc(35% - 270px);/*leftclum + MoveViewPageのwidth分引いた値*/
   min-height: 100%;
   /*background-color: #f5f5f5;*/
 }
@@ -79,8 +79,14 @@ a {
 .MoveViewPage {
   width: 40px;
   min-height: 100vh;
-  background-color: #000000;
+  background-color: #ff6347;
+  cursor : pointer;
 }
+
+.MoveViewPage:hover {
+  background: #ff7f50;
+}
+
 
 .MoveViewPage .arow_box {
   position: fixed;
@@ -109,7 +115,7 @@ a {
 .centerclum-wrapper {
   margin: 0px;
   padding: 0px;
-  width: 60%;
+  width: 65%;
 }
 
 .work {
@@ -164,6 +170,10 @@ a {
   opacity: 0.2;
 }
 
+.works .stu2 {
+  display: none;
+}
+
 
 /*leftclum*/
 .leftclum-wrapper h1 {
@@ -172,24 +182,48 @@ a {
 
 
 /*rightclum*/
-/* .read-work {
+.delete_articles {
+  position: absolute;
+  bottom: 80px;
+}
+
+.delete_article {
   cursor : pointer;
-  margin: 5px 0;
+  margin: 0px 0;
 }
 
-.read-work h3{
+.delete_article h3{
   margin: 0;
-  font-size: 11px;
+  font-size: 8px;
   font-weight: lighter;
-  padding: 2px 5px;
+  padding: 1px;
+  opacity: 0.3;
 }
 
-.read-work h3:hover {
+.delete_article h3:hover {
   font-weight: bold;
-} */
+  opacity: 1.0;
+}
 
 .rightclum-wrapper input {
   position: absolute;
   bottom: 10px;
   right: 10px;
+
+  border: 0px;
+  background: #203744;
+  color: #FFF;
+  width: 50px;
+  height: 50px;
+  border-radius: 5%;
+  text-align: center;
+  font-weight: solid;
+}
+
+.rightclum-wrapper input:hover{
+  background: #4682b4;
+}
+
+.rightclum-wrapper input:active {
+  bottom: 8px;
 }
